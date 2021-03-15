@@ -13,6 +13,7 @@ const app = express()
 const http = require('http')		
 const conn = require('./app/v1/config/db.config')
 const routes = require('./app/v1/routes/index')
+const multer = require('multer')
 // const sequelize = require('./apps/v1/config/db.config')
 // const myConfig = require('./apps/v1/config/config')
 
