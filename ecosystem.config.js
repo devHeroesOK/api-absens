@@ -17,7 +17,7 @@ module.exports = {
                 Z: 'Asia/Jakarta',
                 NAMESPACE: 'api-absens',
                 APPID: 4,
-                PORT: 3000,
+                PORT: 3001,
                 VERSION: '1.0.0',
                 NODE_ENV: 'development',
                 DEBUG: "api-absens:*,queries:*"

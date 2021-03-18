@@ -3,20 +3,40 @@ const debug = require('debug')
 const moment = require('moment')
 const scp = require('node-scp')
 const path = require('path')
+const axios = require('axios')
 const Absen = require('../queries/absen')
+const service = require('../services/ApiGeoLocation')
+const { toUpper } = require('lodash')
 const log = debug('api-absens:absen:')
 
 async function absenMasuk (req, res) {
     let data = req.body
     let files = req.file
-    log('absenMasuk', { data, files })
+    let users = req.user
+    log('absenMasuk', { data, files, users })
     try {
+        return false
         // const uploadImage = await upload({ vname_user: data.vname_user, files })
+        // if (users.vname_user !== toUpper(data.vname_user)) return res.json({ statusCode: 400, message: 'Maaf, ini bukan akun anda. Silahkan periksa kembali' })  
         const imageName = moment(Date.now()).format('YYYYMMDDhhmmss') + data.vname_user + path.extname(files.originalname)
+        const url = service.api + 'v1/reverse'
+        const params = {
+            access_key: '98675a441e17a12ee1a4185e3ce3cbc7',
+            query: '-6.200922, 106.81637',
+            limit: 1
+        }
+        const response = await axios.get(
+            url,
+            { params }
+        )
+        log('response', response)
+
+        return false
         let formData = {
-            vname_user: data.vname_user,
+            vname_user: toUpper(data.vname_user),
+            tdate_masuk: data.tdate_masuk,
             image: imageName,
-            tkoordinate: '106.816666'
+            tkoordinate: data.tkoordinate
         }
         const created = await Absen.create(formData)
         if (!created) return res.json({ statusCode: 400, message: 'Gagal menyimpan data. Silahkan coba lagi.' })

@@ -17,9 +17,10 @@ async function login (req, res) {
         const exists = await Users.findByUsername(toUpper(username), password)
         if (_.isEmpty(exists)) return res.json({ statusCode: 404, message: 'Username tidak terdaftar.', data: [] })
 
-        const updateLogin = await Users.updateLogin(exists.vname_user)
+        let updateLogin = await Users.updateLogin(exists.vname_user)
+        let access_token = jwt.sign({ vname_user: exists.vname_user, tpassword: exists.tpassword }, myConfig.sessionSecret, { expiresIn: myConfig.expiredSessionTime })
 
-        return res.json({ statusCode: 200, data: exists })
+        return res.json({ statusCode: 200, session: { access_token }, data: exists })
 
         // let validPassword = bcrypt.compare(password, exists.password, function (err, result) {
         //     log('passwordValid', result)

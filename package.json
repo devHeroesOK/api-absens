@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/devHeroesOK/api-absens#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -36,6 +37,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
+    "request": "^2.88.2",
     "ssh2-sftp-client": "^6.0.1",
     "ssh2-streams": "^0.4.10"
   }

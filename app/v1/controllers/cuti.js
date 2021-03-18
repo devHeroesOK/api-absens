@@ -6,12 +6,14 @@ const log = debug('api-absens:cuti:')
 
 async function createCuti (req, res) {
     let data = req.body
-    log('buatCuti', data)
+    let users = req.user
+    log('buatCuti', { data, users })
     try {
+        if (users.vname_user !== _.toUpper(data.vname_user)) return res.json({ statusCode: 400, message: 'Maaf, ini bukan akun anda. Silahkan periksa kembali' })
         let formData = { 
-            vname_user: data.vname_user, 
-            vharicuti: data.vharicuti, 
-            ttglcuti: data.ttglcuti, 
+            vname_user: _.toUpper(data.vname_user),  
+            ttglcutimulai: data.ttglcutimulai, 
+            ttglcutiakhir: _.isEmpty(data.ttglcutiakhir) ? data.ttglcutimulai : data.ttglcutiakhir,
             valasan: data.valasan, 
             tremarkscuti: data.tremarkscuti 
         } 

@@ -15,10 +15,10 @@ module.exports = function (passport) {
         done(null, user)
     })
 
-    passport.deserializeUser(async (id, done) => {
-        log('deserializeUser', id)
+    passport.deserializeUser(async (vname_user, tpassword, done) => {
+        log('deserializeUser', { vname_user, tpassword })
         try {
-            const query = `select users.* from users where users.id = '${id}'`
+            const query = `select * from master.tbl_master_user where vname_user = '${vname_user}' and tpassword = '${tpassword}'`
             let user = await pool.query(query, (err, result) => {
                 if (err) return err
 

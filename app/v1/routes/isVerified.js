@@ -8,7 +8,9 @@ async function isVerified (req, res, next){
     let log = debug('api-absens:isVerified')
     try {
         const bearerHeader = req.headers['authorization']
+        log('bearerHeader', bearerHeader)
         const token = bearerHeader.split(' ')[1]
+        log('token', token)
         const decoded = jwt.verify(token, myConfig.sessionSecret)
         log('decoded: ', decoded)
         req.user = decoded

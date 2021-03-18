@@ -25,8 +25,14 @@ async function findByUsername (username, password) {
 async function updateLogin (vname_user) {
     log('updateLogin', vname_user)
     try {
-        let updateLoginDate = await pool.query(`update master.tbl_master_user set tdate_login = now() where vname_user = '${vname_user}';
-            insert into history.tbl_history_login (vname_user, tdate_login, vaction) values('${vname_user}', now(), 'LOGIN')`)
+        let updateLoginDate = await pool.query(`
+        
+            update master.tbl_master_user set tdate_login = now() where vname_user = '${vname_user}';
+            insert into history.tbl_history_login (vname_user, tdate_login, vaction) values('${vname_user}', now(), 'LOGIN')
+            
+            
+            `)
+            
         const response = { updateLoginDate }
         log('response', response)
         return response
