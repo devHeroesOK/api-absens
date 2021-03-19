@@ -14,7 +14,7 @@ const imageFilter = (req, file, cb) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null,  '../../../public/uploads/images')
+    cb(null,  './public/uploads/images')
   },
   filename: (req, file, cb) => {
     cb(null, moment(Date.now()).format('YYYYMMDDhhmmss') + req.body.vname_user + path.extname(file.originalname));
@@ -23,6 +23,6 @@ const storage = multer.diskStorage({
 
 console.log(path.dirname)
 
-const uploadFile = multer({ storage: storage, fileFilter: imageFilter, limits: { fieldSize: 1000000000, fileSize: 1000000000 } });
+const uploadFile = multer({ storage: storage, fileFilter: imageFilter });
 
 module.exports = uploadFile;

@@ -5,7 +5,7 @@ require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
-const port = process.env.PORT || 3001
+const port = 3004
 const passport = require('passport')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
@@ -26,7 +26,6 @@ app.use(express.static(path.join(__dirname, '/public')))
 require("./app/v1/config/passport")(passport)
 app.use(passport.initialize())
 app.use(passport.session())
-
 app.use('/', routes)
 
 // sequelize

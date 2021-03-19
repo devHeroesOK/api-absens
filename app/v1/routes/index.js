@@ -12,10 +12,10 @@ router.post('/HRD/api/v1/login', index.login)
 router.get('/HRD/api/v1/home', [isVerified], index.home)
 
 // absen
-router.post('/HRD/api/v1/absen/masuk', upload.single('filename'), absen.absenMasuk)
+router.post('/HRD/api/v1/absen/masuk', upload.single('files'), absen.absenMasuk)
 // router.patch('/HRD/api/v1/absen/keluar/:id', [isVerified], absen.absenKeluar)
 
 // cuti
-router.post('/HRD/api/v1/cuti', [isVerified], cuti.createCuti)
+router.post('/HRD/api/v1/cuti', cuti.createCuti)
 
 module.exports = router

@@ -6,6 +6,7 @@ const path = require('path')
 const axios = require('axios')
 const Absen = require('../queries/absen')
 const service = require('../services/ApiGeoLocation')
+const endpoint = require('../services/ApiConfig')
 const { toUpper } = require('lodash')
 const log = debug('api-absens:absen:')
 
@@ -15,33 +16,37 @@ async function absenMasuk (req, res) {
     let users = req.user
     log('absenMasuk', { data, files, users })
     try {
-        return false
         // const uploadImage = await upload({ vname_user: data.vname_user, files })
         // if (users.vname_user !== toUpper(data.vname_user)) return res.json({ statusCode: 400, message: 'Maaf, ini bukan akun anda. Silahkan periksa kembali' })  
         const imageName = moment(Date.now()).format('YYYYMMDDhhmmss') + data.vname_user + path.extname(files.originalname)
-        const url = service.api + 'v1/reverse'
+        log('image', imageName)
+        // return false
+        const url = service.api + endpoint.reverse
         const params = {
             access_key: '98675a441e17a12ee1a4185e3ce3cbc7',
-            query: '-6.200922, 106.81637',
+            query: `${data.latitude}, ${data.longitude}`,
             limit: 1
         }
         const response = await axios.get(
             url,
             { params }
-        )
-        log('response', response)
-
-        return false
-        let formData = {
-            vname_user: toUpper(data.vname_user),
-            tdate_masuk: data.tdate_masuk,
-            image: imageName,
-            tkoordinate: data.tkoordinate
-        }
-        const created = await Absen.create(formData)
-        if (!created) return res.json({ statusCode: 400, message: 'Gagal menyimpan data. Silahkan coba lagi.' })
-
-        return res.json({ statusCode: 200, message: 'Absen masuk berhasil!' })
+        ).then(async res => {
+            log('response', res.data)
+            let formData = {
+                vname_user: toUpper(data.vname_user),
+                tdate_masuk: data.tdate_masuk,
+                image: imageName,
+                tkoordinate: `${data.latitude}, ${data.longitude}`,
+                vlokasi: res.data.data[0].label
+            }
+            const created = await Absen.create(formData)
+            if (!created) return res.json({ statusCode: 400, message: 'Gagal menyimpan data. Silahkan coba lagi.' })
+    
+            return res.json({ statusCode: 200, message: 'Absen masuk berhasil!' })
+        }).catch(error => {
+            log('error', error)
+        })
+        // return false
     } catch (error) {
         throw error
     }

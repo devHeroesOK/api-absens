@@ -9,6 +9,7 @@ async function createCuti (req, res) {
     let users = req.user
     log('buatCuti', { data, users })
     try {
+        // return false    
         if (users.vname_user !== _.toUpper(data.vname_user)) return res.json({ statusCode: 400, message: 'Maaf, ini bukan akun anda. Silahkan periksa kembali' })
         let formData = { 
             vname_user: _.toUpper(data.vname_user),  

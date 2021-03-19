@@ -10,7 +10,7 @@ async function findByUsername (username, password) {
         //                concat (user_detail.firstname, ' ', user_detail.lastname) as fullname from users
         //                left join user_detail on user_detail.id = users.user_id 
         //                where users.username = '${username}' and users.is_deleted = false`
-        let query = `select vname_user, tpassword from master.tbl_master_user where vname_user = '${username}' and tpassword = '${password}'`
+        let query = `select * from master.tbl_master_user where vname_user = '${username}' and tpassword = '${password}'`
         const response = await pool.query(query)
         log('response', response.rows)
         if (_.isEmpty(response)) return response
